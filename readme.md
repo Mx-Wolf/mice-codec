@@ -1,3 +1,7 @@
-# Шаблон
+# API
 
-Этот шаблон сделан для ускорения создания ряда демо и учебных проектов в рамках курса HTML-academy - levelup-typescript.
+Предоставляет три функции
+
+- generateRandomString():string
+- encode(value: string, buffer: Blob): Promise<Blob>
+- decode(value: string, buffer: Blog): Promise<Blob>

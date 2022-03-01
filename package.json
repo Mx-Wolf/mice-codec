@@ -1,4 +1,15 @@
 {
+  "name": "mx-wolf-mice-codec",
+  "version": "1.0.0",
+  "author": "Maxim Volkov",
+  "main":"dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mx-Wolf/mice-codec.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Mx-Wolf/mice-codec/issues"
+  },
   "scripts": {
     "test": "mocha",
     "build": "tsc"
