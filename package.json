@@ -1,6 +1,6 @@
 {
   "name": "mx-wolf-mice-codec",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "Maxim Volkov",
   "description": "encode and decode bytes",
   "keywords": [
