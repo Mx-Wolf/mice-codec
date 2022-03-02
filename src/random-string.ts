@@ -1,4 +1,12 @@
-const LENGTH = 256;
+import { EXTRACTABLE_KEY, FORMAT, IV_LENGTH, LENGTH, Length, MiceKey, NAME, USAGE } from './settings';
+
+const getParams = (length:Length)=>({name: NAME, length} as AesKeyGenParams);
+const generateKey = (algo: AesKeyGenParams) =>
+  window.crypto.subtle.generateKey(algo, EXTRACTABLE_KEY, USAGE);
+const isCryptoKey = (key:CryptoKey | CryptoKeyPair): key is CryptoKey => 'type' in key;
+const makeIv = ():number[] => Array.from(window.crypto.getRandomValues(new Uint8Array(IV_LENGTH)));
+const prepareKey = (json: JsonWebKey): MiceKey => ({json, iv: makeIv()});
+const exportKey = (key:CryptoKey) => window.crypto.subtle.exportKey(FORMAT, key).then((json)=>JSON.stringify(prepareKey(json)));
 
 const getRandomBits = (length: number = LENGTH) => {
   const buffer = new Int8Array(length);
@@ -8,36 +16,15 @@ const getRandomBits = (length: number = LENGTH) => {
 
 const getRandomBlob = (length: number =  LENGTH)=> new Blob([getRandomBits(length)]);
 
-const getResultString = (target: FileReader | null): string => {
-  if (target === null) {
-    throw new Error('argument null');
-  }
-  const result = target.result;
-  if (typeof result === 'string') {
-    return result;
-  }
-  throw new TypeError('incorrect result');
-};
-
 export const loadRandomBlob = (reader: FileReader, length: number = LENGTH): void => {
   reader.readAsDataURL(getRandomBlob(length));
 };
 
-const createLoader = (reader:FileReader)=>new Promise<string>((resolve, reject)=>{
-  reader.addEventListener('load',(evt)=>{
-    try{
-      resolve(getResultString(evt.target));
-    }
-    catch(err){
-      reject(err);
-    }
-  });
-});
-
-export const getRandomString = (length: number = LENGTH):Promise<string> => {
-  const reader = new FileReader();
-  const result = createLoader(reader);
-  loadRandomBlob(reader, length);
-  return result;
+export const getRandomString = async (): Promise<string> => {
+  const key = await generateKey(getParams(LENGTH));
+  if(!isCryptoKey(key)){
+    throw new Error('can not generate secret key');
+  }
+  return await exportKey(key);
 };
 

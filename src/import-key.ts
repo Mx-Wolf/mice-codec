@@ -1,18 +1,25 @@
-const KEY_FORMAT = 'raw';
-const CRYPTO_KEY_ALGO = 'PBKDF2';
-const USAGE:KeyUsage[] = ['encrypt','decrypt'];
+import { EXTRACTABLE_KEY, FORMAT, LENGTH, MiceInternals, MiceKey, NAME, USAGE } from './settings';
 
-const importKeyPreConfigured = async (buffer: ArrayBuffer)=> await window.crypto.subtle.importKey(
-  KEY_FORMAT,
-  buffer,
-  CRYPTO_KEY_ALGO,
-  true,
-  USAGE
-);
+const getAesKeyAlgorithm = () => ({length: LENGTH,name: NAME} as AesKeyAlgorithm);
 
-export const importKey = async (password: string)=>{
-  const res = await fetch(password);
-  const blob =  await res.blob();
-  const buffer = await blob.arrayBuffer();
-  return await importKeyPreConfigured(buffer);
+const isMiceKey = (parsed:unknown):parsed is MiceKey => typeof parsed === 'object' && parsed !== null && 'json' in parsed;
+
+const importJwk = (parsed: JsonWebKey) =>
+  window.crypto.subtle.importKey(
+    FORMAT,
+    parsed,
+    getAesKeyAlgorithm(),
+    EXTRACTABLE_KEY,
+    USAGE
+  );
+
+export const importKey = async (password: string): Promise<MiceInternals> => {
+  const jwk = JSON.parse(password) as unknown;
+  if (!isMiceKey(jwk)) {
+    throw new Error('incorrect key');
+  }
+  return {
+    key: await importJwk(jwk.json),
+    iv: new Uint8Array(jwk.iv),
+  };
 };
