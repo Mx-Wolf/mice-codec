@@ -2,7 +2,7 @@
   "name": "mx-wolf-mice-codec",
   "version": "1.0.0",
   "author": "Maxim Volkov",
-  "main":"dist/index.js",
+  "main": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/Mx-Wolf/mice-codec.git"
@@ -20,7 +20,7 @@
     "@types/jsdom": "^16.2.14",
     "@types/jsdom-global": "^3.0.2",
     "@types/mocha": "^9.1.0",
-    "@types/sinon": "^10.0.9",
+    "@types/sinon": "^10.0.11",
     "@typescript-eslint/eslint-plugin": "^5.10.1",
     "@typescript-eslint/parser": "^5.10.1",
     "chai": "^4.3.6",
