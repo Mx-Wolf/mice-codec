@@ -2,11 +2,11 @@
 
 Предоставляет три функции
 
-- generateRandomString():Promise<string>
-- encode(value: string, buffer: Blob): Promise<Blob>
-- decode(value: string, buffer: Blog): Promise<Blob>
+- getRandomString():Promise&lt;string>
+- encode(value: string, buffer: Blob): Promise&lt;Blob>
+- decode(value: string, buffer: Blog): Promise&lt;Blob>
 
-## generateRandomString
+## getRandomString
 
 создает строку внутри которой json. Это сериализованный ключ для шифрования AES-CBC и iv. Предполагается, что эту строку используют только один раз.
 
@@ -37,7 +37,7 @@ Promise который разрешится в закодированный бл
 
 ### Параметры
 
-* value - строка полученная из generateRandomString (та же самая, которая использовалась при закодировании)
+* value - строка полученная из generateRandomString (та же самая, которая использовалась при кодировании)
 * blob - Blob, который нужно раскодировать.
 
 ### Результат
