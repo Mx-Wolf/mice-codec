@@ -7,9 +7,10 @@ const settings_1 = require("./settings");
 const decode = async (password, blob) => {
     const { iv, key } = await (0, import_key_1.importKey)(password);
     const buffer = await (0, blob_transform_1.blobToBuffer)(blob);
-    return await window.crypto.subtle.decrypt({
+    const x = await window.crypto.subtle.decrypt({
         name: settings_1.NAME,
         iv,
     }, key, buffer);
+    return new Blob([x]);
 };
 exports.decode = decode;
