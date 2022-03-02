@@ -5,7 +5,7 @@ import { NAME } from './settings';
 export const decode = async (password: string, blob: Blob): Promise<Blob> => {
   const { iv, key } = await importKey(password);
   const buffer = await blobToBuffer(blob);
-  return await window.crypto.subtle.decrypt(
+  const x = await window.crypto.subtle.decrypt(
     {
       name: NAME,
       iv,
@@ -13,4 +13,5 @@ export const decode = async (password: string, blob: Blob): Promise<Blob> => {
     key,
     buffer
   );
+  return new Blob([x]);
 };

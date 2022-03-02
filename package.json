@@ -1,6 +1,6 @@
 {
   "name": "mx-wolf-mice-codec",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Maxim Volkov",
   "description": "encode and decode bytes",
   "keywords": ["AES","Blob"],
